@@ -23,7 +23,8 @@ export class AppComponent {
   }
 
   public test(): void {
-      const message = new Event('client', 'events', {});
+      const message = new Event('client', 'TEST', {});
+      console.dir(message);
 
       this.socket$.next(message);
   }

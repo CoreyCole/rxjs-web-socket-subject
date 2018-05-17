@@ -5,18 +5,20 @@ import {
   WebSocketServer,
   WsException,
 } from '@nestjs/websockets';
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Event, EventResponse } from '../../../client/src/app/app.models';
 
 @WebSocketGateway(8080)
 export class EventsGateway {
   @WebSocketServer() server;
 
-  @SubscribeMessage('events')
-  onEvent(client, data): Observable<WsResponse<number>> {
-    const event = 'events';
-    const response = [1, 2, 3];
+  constructor() {
+    console.log('started websocket listener on port 8080 :)');
+  }
 
-    return from(response).pipe(map(res => ({ event, data: res })));
+  @SubscribeMessage('events')
+  onEvent(client, data): WsResponse<EventResponse> {
+    console.log(data);
+
+    return { event: 'events', data };
   }
 }

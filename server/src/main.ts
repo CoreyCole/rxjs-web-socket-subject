@@ -6,6 +6,6 @@ async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule);
   app.useWebSocketAdapter(new WsAdapter(app.getHttpServer()));
   await app.listen(3000);
-  console.log('started server!');console.log('started server!');console.log('started server!');console.log('started server!');console.log('started server!');console.log('started server!');
+  console.log(`started server on port ${app.getHttpServer().address().port} :)`)
 }
 bootstrap();

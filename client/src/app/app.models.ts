@@ -1,8 +1,26 @@
 export class Event {
   public event = 'events';
+  public data: {
+    sender: string,
+    type: string,
+    payload: any
+  };
   constructor(
-    public sender: string,
-    public type: string,
-    public payload: any
-  ) { }
+    sender: string,
+    type: string,
+    payload: any
+  ) {
+    this.data = Object.freeze({
+      sender, type, payload
+    });
+  }
+}
+
+export interface EventResponse {
+  event: string;
+  data: {
+    sender: string,
+    type: string,
+    payload: any
+  };
 }
