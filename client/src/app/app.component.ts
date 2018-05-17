@@ -1,5 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 import { WebSocketSubject } from 'rxjs/webSocket';
 
 import { Event } from './app.models';
@@ -10,29 +9,23 @@ import { Event } from './app.models';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private socket$: WebSocketSubject<any>;
-  private serverEvents: Event[];
+
+  private socket$: WebSocketSubject<Event>;
 
   constructor() {
-    this.socket$ = WebSocketSubject.create('ws://localhost:8080');
-    this.socket$
-      .subscribe(
-        (e) => this.handle(e),
+    this.socket$ = new WebSocketSubject('ws://localhost:8080');
+
+    this.socket$.subscribe(
+        (message) => console.log(message),
         (err) => console.error(err),
         () => console.warn('Completed!')
       );
   }
 
   public test(): void {
-    const testMessage: Event = new Event('client', 'test', null);
-    console.log('sending', testMessage);
-    this.socket$.next(JSON.stringify({
-        event: 'events',
-        data: 'test',
-    }));
+      const message = new Event('client', 'events', {});
+
+      this.socket$.next(message);
   }
 
-  private handle(e: Event): void {
-    console.log('receiving', e);
-  }
 }
